@@ -1,14 +1,15 @@
 
 $drop = $args[0]
+$service_email = $args[1]
 
 function DetectChanges () {
     Write-Output "[INFO]: Change detect script started on $drop folder..." | Green
 
     try {
+        # scan drop and create diff file
         ScanDrop
-    
-        # Send-Email -To "garbers8@gmail.com" -Subject "Testing" -Body "bla bla bla..."
-        Send-Gmail -To "garbers8@gmail.com"
+        use the diff file to notify about the need to trigger an email  
+        Send-Gmail -To $service_email
     }
     catch {
         Write-Error $Error[0]
