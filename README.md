@@ -15,6 +15,10 @@ and fill in the following values
 SERVICE_EMAIL=your@email.address
 ```  
 
+## RUN
+
+```.\detect_change.ps1 /relative/or/absolute/path/to/your/folder```
+
 use PowerShell in windows
 
 ** no linux\mac support yet

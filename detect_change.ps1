@@ -54,7 +54,7 @@ function ScanDrop() {
         }
     }
     else {
-        Write-Output "[INFO]: Differences NOT found" | Blue
+        Write-Output "[INFO]: Differences NOT detected" | Blue
     }
 }
 
