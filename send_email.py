@@ -124,9 +124,9 @@ def main():
             token.write(creds.to_json())
 
     try:
-        # Call the Gmail API
+        # Call the Gmail API  
         service = build('gmail', 'v1', credentials=creds)
-        msg = create_message_with_attachment(SERVICE_EMAIL, sys.argv[1], "testing",  f"sent new file to ${sys.argv[1]}", ".\drop\sdfs.txt")
+        msg = create_message_with_attachment(SERVICE_EMAIL, sys.argv[1], "testing",  f"sent new file to ${sys.argv[1]}", sys.argv[2])
         send_message(service, 'me', msg)
 
 

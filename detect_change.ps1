@@ -21,14 +21,14 @@ function ScanDrop() {
     Write-Output "[INFO]: Getting drop..."
 
     # copy new to old
-    Get-Content .\drop.txt | Out-File .\old_drop.txt
+    Get-Content .\temp\drop.txt | Out-File .\temp\old_drop.txt
 
     # create new drop file
-    Get-ChildItem -Recurse "$drop" | Select-Object -ExpandProperty FullName | Out-File .\drop.txt
+    Get-ChildItem -Recurse "$drop" | Select-Object -ExpandProperty FullName | Out-File .\temp\drop.txt
     
     # fetch drop files
-    $old_drop_file = Get-Content $drop\old_drop.txt
-    $drop_file = Get-Content $drop\drop.txt
+    $old_drop_file = Get-Content .\temp\old_drop.txt
+    $drop_file = Get-Content .\temp\drop.txt
     
     # compare diff
     Write-Output "[INFO]: Comparing diffs..."
@@ -48,7 +48,7 @@ function ScanDrop() {
             else {
                 Write-Output "+ $($grp.InputObject)" | Green
                 # send email with file attachment
-                Add-Content .\diff.txt "$($grp.InputObject)`n"
+                Add-Content .\temp\diff.txt "$($grp.InputObject)`n"
                 # Send-Email -To "garbers8@gmail.com" -Subject "Testing..." -Body "did this work?!"
             }
         }
@@ -64,16 +64,16 @@ function Send-Gmail() {
     )
 
     try {
-        $diff_file = Get-Content .\diff.txt -ErrorAction stop
+        $diff_file = Get-Content .\temp\diff.txt -ErrorAction stop
         # run python script with $diff_files as attached files
         foreach ($file in $diff_file) {
             Write-Output $file
             if($file.Length) {
-                python send_email.py $To $file    
+                python send_email.py $To $file $drop   
             }
         }
     
-        Remove-Item -Path .\diff.txt -ErrorAction stop
+        Remove-Item -Path .\temp\diff.txt -ErrorAction stop
 
     } catch {
         # Write-Error $Error[0]
