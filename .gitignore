@@ -1,5 +1,7 @@
 /unused
 /venv
+/drop_example
+!/drop_example/newfile.txt
 *.json
 drop.txt
 old_drop.txt
