@@ -1,6 +1,6 @@
-# EMAIL SENDER
+# Email Sender
 
-## SETUP
+## Setup
 * install google dependendies run  
 ```pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib```
 * setup venv for python  
@@ -15,7 +15,7 @@ and fill in the following values
 SERVICE_EMAIL=your@email.address  
 ```  
 
-## RUN  
+## Run the main script
 
 ```.\detect_change.ps1 /relative/or/absolute/path/to/your/folder```  
 
