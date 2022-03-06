@@ -1,4 +1,6 @@
 /drop
 /unused
 *.json
-*.txt
+drop.txt
+old_drop.txt
+.env

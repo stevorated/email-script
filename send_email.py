@@ -1,12 +1,13 @@
 #!/usr/bin/python
 from __future__ import print_function
 import sys
-
-
 import base64
 import os.path
+import os
+from pathlib import Path
 import mimetypes
 
+from dotenv import load_dotenv
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -17,30 +18,17 @@ from email.mime.image import MIMEImage
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
+
+basepath = Path()
+basedir = str(basepath.cwd())
+load_dotenv(basepath.cwd())
  
+SERVICE_EMAIL = os.getenv('SERVICE_EMAIL')
 print ('Number of arguments:', len(sys.argv), 'arguments.')
 print ('Argument List:', str(sys.argv))
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://mail.google.com/']
-
-def create_message(sender, to, subject, message_text):
-  """Create a message for an email.
-
-  Args:
-    sender: Email address of the sender.
-    to: Email address of the receiver.
-    subject: The subject of the email message.
-    message_text: The text of the email message.
-
-  Returns:
-    An object containing a base64url encoded email object.
-  """
-  message = MIMEText(message_text, _charset="utf-8")
-  message['to'] = to
-  message['from'] = sender
-  message['subject'] = subject
-  return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
 
 def create_message_with_attachment(
     sender, to, subject, message_text, file):
@@ -138,7 +126,7 @@ def main():
     try:
         # Call the Gmail API
         service = build('gmail', 'v1', credentials=creds)
-        msg = create_message_with_attachment("garbers8@gmail.com", sys.argv[1], "testing",  f"sent new file to ${sys.argv[1]}", ".\drop\sdfs.txt")
+        msg = create_message_with_attachment(SERVICE_EMAIL, sys.argv[1], "testing",  f"sent new file to ${sys.argv[1]}", ".\drop\sdfs.txt")
         send_message(service, 'me', msg)
 
 
@@ -149,4 +137,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
